@@ -1,0 +1,9 @@
+.main {
+  display: flex;
+}
+.menu{
+  width:20%;
+}
+.views{
+  width:80%;
+}
