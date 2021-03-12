@@ -59,12 +59,13 @@ export default function FormUpdateBill(props) {
         house_type: '',
         houseId: '',
         number_people: '',
-        price: '',
-        total_cost: '',
+        price: 0,
+        total_cost: 0,
         checkIn: null,
         checkOut: null,
         Time_booking: null,
-        StatusPayment: false,
+        // status_payment: false,
+        statusPayment: '',
 
     });
     const token = document.cookie;
@@ -74,7 +75,7 @@ export default function FormUpdateBill(props) {
         if (id) {
             axios.get(`${BASE_API}/bills/${id}`)
                 .then(response => {
-                    // console.log(response.data)
+                    console.log(response.data)
                     setText({
                         ...text,
                         customername: response.data.customer_name,
@@ -90,7 +91,8 @@ export default function FormUpdateBill(props) {
                         checkIn: response.data.checkIn,
                         checkOut: response.data.checkOut,
                         Time_booking: response.data.time_booking,
-                        StatusPayment: response.data.status_payment,
+                        // status_payment: response.data.status_payment,
+                        statusPayment: response.data.statusPayment,
 
                     })
 
@@ -118,10 +120,10 @@ export default function FormUpdateBill(props) {
         history.push("/bills")
     }
     // console.log(token1)
-    function buttonRepair() {
+    function buttonUpdate() {
         axios.put(`${BASE_API}/bills/${id}`, {
             
-            status_payment: text.StatusPayment,
+            statusPayment: text.statusPayment,
 
         },
 
@@ -295,17 +297,35 @@ export default function FormUpdateBill(props) {
                         value={text.Time_booking}
                         onChange={changeInput}
                     />
-                    <FormControl className={classes.formControl}>
+                    {/* <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">Status Payment</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={text.status_payment}
-                            type="boolean"
+                            // type="boolean"
                             onChange={changeInput}
+                            name="status_payment"
                         >
-                            <MenuItem value={true}>Đã thanh toán</MenuItem>
+                            <MenuItem value={"true"}>Đã thanh toán</MenuItem>
                             <MenuItem value={false}>Chưa thanh toán</MenuItem>
+                            
+                        </Select>
+                    </FormControl> */}
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">Status-Payment</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={text.statusPayment}
+                            // type="boolean"
+                            onChange={changeInput}
+                            name="statusPayment"
+                        >
+                            <MenuItem value={2}>Đã thanh toán</MenuItem>
+                            <MenuItem value={3}>Chờ Hủy</MenuItem>
+                            <MenuItem value={1}>Chưa thanh toán</MenuItem>
+                            <MenuItem value={0}>Hủy</MenuItem>
                             
                         </Select>
                     </FormControl>
@@ -323,7 +343,7 @@ export default function FormUpdateBill(props) {
 </Button>
 
                 <Button className={classes.button_confirm} variant="contained" color="primary"
-                    onClick={buttonRepair}
+                    onClick={buttonUpdate}
                 >
                     Update
             </Button>

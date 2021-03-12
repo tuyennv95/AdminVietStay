@@ -31,29 +31,29 @@ export default function MenuListComposition() {
         <MenuList>
         <Link to="/" style={{ textDecoration: 'none' }}>
 
-          <MenuItem>Dashboard</MenuItem>
+          <MenuItem styles={{}}>Dashboard</MenuItem>
           </Link>
 
           <Link to="/users" style={{ textDecoration: 'none' }}>
-            <MenuItem>Users</MenuItem>
+            <MenuItem styles={{}}>Users</MenuItem>
           </Link>
 
           <Link to="/houses" style={{ textDecoration: 'none' }}>
-            <MenuItem>Houses
+            <MenuItem styles={{}}>Houses
           </MenuItem>
           </Link>
           <Link to="/room-type" style={{ textDecoration: 'none' }}>
-            <MenuItem>Type Room
+            <MenuItem styles={{}}>Type Room
           </MenuItem>
 
           </Link>
           <Link to="/bills" style={{ textDecoration: 'none' }}>
-            <MenuItem>Bills</MenuItem>
+            <MenuItem styles={{}}>Bills</MenuItem>
           </Link>
           <Link to="/util" style={{ textDecoration: 'none' }}>
-            <MenuItem>Utilities</MenuItem>
+            <MenuItem styles={{}}>Utilities</MenuItem>
           </Link>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem styles={{}}>Logout</MenuItem>
         </MenuList>
       </Paper>
 

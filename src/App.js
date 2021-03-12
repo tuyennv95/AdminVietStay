@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import './App.css';
 import Header from './component/Header';
 import Menu from './component/Menu';
@@ -13,7 +12,7 @@ import { Provider } from 'react-redux';
 import { store } from './setup-redux/store';
 import Login from '../src/component/Login';
 import PrivateRoute from './PrivateRoute';
-import Administrative from './pages/Administarive';
+// import Administrative from './pages/Administarive';
 import TypeRoom from './pages/typeRoom';
 import FormUser from './component/FormUser';
 import FormType from './component/FormType';
@@ -49,6 +48,7 @@ function App() {
               <PrivateRoute path="/room-type/add" component={FormType} />
               <PrivateRoute path="/room-type/repair&id=:id" component={FormType} />
               <PrivateRoute path="/houses/add" component={FormHouse} />
+              <PrivateRoute exact path="/houses/repair&id=:id" component={FormHouse} />
               <PrivateRoute exact path="/util" component={Utilities} />
               <PrivateRoute path="/util/add" component={FormUtil} />
               <PrivateRoute path="/util/repair-util&id=:id" component={FormUtil} />

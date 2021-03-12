@@ -63,7 +63,7 @@ export default function TypeRoom() {
     }
     function delTypeRoom(){
         // eslint-disable-next-line no-restricted-globals
-        const alertConfrm = confirm(`Bạn có muốn xóa loại phòng só id:${idType}`);
+        const alertConfrm = confirm(`Bạn có muốn xóa loại phòng số id:${idType}`);
         if(alertConfrm=== true){
             axios.delete(`${BASE_API}/type-rooms/${idType}`,{
               headers: {

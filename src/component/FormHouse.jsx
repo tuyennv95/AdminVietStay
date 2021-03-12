@@ -16,11 +16,17 @@ import { BASE_API } from '../constant/index';
 import ListItemText from '@material-ui/core/ListItemText';
 import Input from '@material-ui/core/Input';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import ImgTrinhChieu from './ImgTrinhChieu';
 const useStyles = makeStyles((theme) => ({
+    formUser: {
+        width: '100%',
+
+    },
     input: {
         display: 'block',
         margin: '20px',
         width: '100%',
+
     },
     button: {
         width: '100%',
@@ -39,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
     },
     input_avatar: {
         display: 'none',
+        width: '100%',
+
 
     }
 }));
@@ -47,7 +55,9 @@ export default function FormType(props) {
     const classes = useStyles();
     const key = props.location.pathname;
     const [id, setId] = React.useState();
-    const keyRepair = queryString.parse(key)
+    const keyRepair = queryString.parse(key);
+    const [textHuyen, setTextHuyen] = React.useState();
+    const [textTinh, setTextTinh] = React.useState();
     // console.log(keyRepair.id)
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -65,6 +75,7 @@ export default function FormType(props) {
     const [text, setText] = React.useState({
         housename: '',
         id_typehouse: '',
+        acreage: 0,
         price: 0,
         people_number: 0,
         bed_number: 0,
@@ -78,21 +89,36 @@ export default function FormType(props) {
         districts_id: '',
         description: '',
         utilities: [],
-        img_house: [],
         img_avatar_house: {},
+        img_house: [],
     });
     const token = document.cookie;
-    console.log(text)
     const token1 = token.slice(token.indexOf("tuyennguyen=") + 12, token.indexOf(","));
     React.useEffect(() => {
         if (id) {
-            axios.get(`${BASE_API}/type-rooms/${id}`)
+            axios.get(`${BASE_API}/house-for-rents/${id}`)
                 .then(response => {
                     console.log(response.data)
                     setText({
                         ...text,
-                        name: response.data.name,
-                        description: response.data.Description,
+                        housename: response.data.house_name,
+                        id_typehouse: response.data.id_typehouse,
+                        acreage: response.data.acreage,
+                        price: response.data.price,
+                        people_number: response.data.people_number,
+                        bed_number: response.data.bed_number,
+                        number_of_bedroom: response.data.number_of_bedroom,
+                        number_of_bathroom: response.data.number_of_bathroom,
+                        people_max: response.data.people_max,
+                        price_1_poeple_exceed: response.data.price_1_poeple_exceed,
+                        status: response.data.status,
+                        address_ward: response.data.address_ward,
+                        provinces_id: response.data.provinces_id,
+                        districts_id: response.data.districts_id,
+                        description: response.data.description,
+                        utilities: response.data.utilities,
+                        img_avatar_house: response.data.img_avatar_house,
+                        img_house: response.data.img_house,
 
                     })
 
@@ -110,32 +136,46 @@ export default function FormType(props) {
     const changeInput = (e) => {
         const { name, value } = e.target;
         setText({
-            ...text,
-
-            [name]: value,
+            ...text, [name]: value,
         });
-        // console.log(value)
     }
     const history = useHistory();
     function huy() {
-        history.push("/room-type")
+        history.push("/houses")
     }
-    // console.log(token1)
     function buttonRepair() {
-        axios.put(`${BASE_API}/type-rooms/${id}`, {
+        axios.put(`${BASE_API}/house-for-rents/${id}`, {
             // headers: {
             //     Authorization: `Bearer ${token1}`,
             // },
 
-            name: text.name,
-            Description: text.description,
+            house_name: text.housename,
+            id_typehouse: text.id_typehouse,
+            acreage: text.acreage,
+            price: text.price,
+            people_number: text.people_number,
+            bed_number: text.bed_number,
+            number_of_bedroom: text.number_of_bedroom,
+            number_of_bathroom: text.number_of_bathroom,
+            people_max: text.people_max,
+            price_1_poeple_exceed: text.price_1_poeple_exceed,
+            status: text.status,
+            address_ward: text.address_ward,
+            provinces_id: text.provinces_id,
+            districts_id: text.districts_id,
+            description: text.description,
+            utilities: text.utilities,
+            img_avatar_house: text.img_avatar_house,
+            img_house: text.img_house,
+            keySearch: text.address_ward + textHuyen + textTinh,
+
 
         },
 
         )
             .then((response) => {
                 console.log(response)
-                history.push("/room-type")
+                history.push("/houses")
             })
             .catch((error) => {
                 console.log(error)
@@ -143,32 +183,38 @@ export default function FormType(props) {
 
 
     }
-    // console.log(text, text.email, text.phone)
 
-    function buttonAdd() {
-        // axios.post(`${BASE_API}/type-rooms`, {
+    // function buttonAd() {
+    //     axios.post(`${BASE_API}/house-for-rents`, {
 
-        //     name: text.name,
-        //     Description: text.description,
+    //         house_name: text.housename,
+    //         id_typehouse: text.id_typehouse,
+    //         price: text.price,
+    //         people_number: text.people_number,
+    //         bed_number: text.bed_number,
+    //         number_of_bedroom: text.number_of_bedroom,
+    //         number_of_bathroom: text.number_of_bathroom,
+    //         people_max: text.people_max,
+    //         price_1_poeple_exceed: text.price_1_poeple_exceed,
+    //         status: text.status,
+    //         address_ward: text.address_ward,
+    //         provinces_id: text.provinces_id,
+    //         districts_id: text.districts_id,
+    //         description: text.description,
+    //         utilities: [...text.utilities],
+    //         img_avatar_house: text.img_avatar_house,
+    //         // img_house: [...text.img_house]
 
+    //     })
+    //         .then((response) => {
+    //             console.log(response)
+    //             // history.push("/house-for-rents")
+    //         })
+    //         .catch((error) => {
+    //             console.log(error)
+    //         }
+    // }
 
-        // },
-
-        // )
-        //     .then((response) => {
-        //         console.log(response)
-        //         history.push("/room-type")
-        //     })
-        //     .catch((error) => {
-        //         console.log(error)
-        //     })
-        console.log(text)
-
-
-    }
-    function handleChange() {
-
-    }
     //! ------Call lay name type home
     const [dataType, setDataType] = React.useState([]);
     React.useEffect(() => {
@@ -205,50 +251,6 @@ export default function FormType(props) {
         // }
 
     }, [text.provinces_id])
-    // console.log(dataTinh)
-    // const [dataSelect, setDataSelect] = React.useState({
-    //     provinces:'',
-    // })
-    // function changeInputSelect(e){
-    //     const {name, value} = e.target;
-    //     setDataSelect({...dataSelect,
-    //         [name]:value,
-    //     })
-    // }
-    //  !up anh avarta
-    // const [selectFile, setSelectFile] = React.useState(null)
-    // function upload(e) {
-    //     // console.log(e.target.files[0])
-    //     setSelectFile(e.target.files[0])
-    // }
-    // function buttonAdd() {
-    //     const data = new FormData();
-    //     data.append('files', selectFile)
-    //     axios.post(`${BASE_API}/upload`, data)
-    //         .then((response) => {
-    //             console.log(response);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    // }
-    // console.log(selectFile)
-    ///!up anh trinh chieu
-    const [selectFile2, setSelectFile2] = React.useState([]);
-    function upload2(e) {
-        setSelectFile2(e.target.files)
-    }
-    function buttonAdd() {
-        const data2 = new FormData();
-        for (var x = 0; x < selectFile2.length; x++) {
-            data2.append('file', selectFile2[x])
-        }
-        axios.post(`${BASE_API}/upload`, data2)
-            .then((response) => {
-                console.log(response)
-            })
-    }
-    console.log(selectFile2)
     // !call api lay util
     const [dataUtil, setDataUtil] = React.useState([]);
     React.useEffect(() => {
@@ -260,11 +262,122 @@ export default function FormType(props) {
                 console.log(error)
             })
     }, [])
+
+
+    //  !up anh avarta
+    const [selectFile, setSelectFile] = React.useState(null)
+    const [dataAvatar, setDataAvatar] = React.useState(null);
+    const [url, setUrlI] = React.useState('');
+    function upload(e) {
+        e.preventDefault()
+        setSelectFile(e?.target?.files[0])
+        var file = e.target.files[0];
+
+        var reader = new FileReader();
+        setUrlI(URL.createObjectURL(e.target.files[0]))
+        // reader.onloaded = function(){
+
+        // }
+        // reader.readAsText(file);
+    }
+    function setAvt() {
+        var data = new FormData();
+        data.append('files', selectFile);
+        setDataAvatar(data);
+        console.log(data)
+        axios.post(`${BASE_API}/upload/`, data)
+            .then((response) => {
+                console.log(response);
+                console.log(response.data[0].url)
+                setText({ ...text, img_avatar_house: response.data[0] })
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+    ///!up anh trinh chieu
+    // var [listAnh, setListAnh] = React.useState([]);
+
+    const [selectFile2, setSelectFile2] = React.useState([]);
+    function upload2(e) {
+        e.preventDefault()
+        setSelectFile2(e?.target?.files);
+
+
+
+    }
+    function setImg() {
+        console.log('aa')
+        let data2 = new FormData();
+        for (let x = 0; x < selectFile2.length; x++) {
+            data2.append('files', selectFile2[x])
+        }
+
+        // setDataImg(data2)
+        axios.post(`${BASE_API}/upload/`, data2)
+            .then((response) => {
+                console.log(response.data)
+                // setListAnh=[...response.data];
+                setText({ ...text, img_house: [...response.data] })
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+    console.log(text.districts_id)
+    console.log(text.provinces_id)
+    
+    React.useEffect(()=>{
+        axios.get(`${BASE_API}/provinces?province_id=${text.provinces_id}`)
+        .then((response) => {
+            setTextTinh(response?.data[0]?.province_name)
+        })
+    },[text.provinces_id])
+    React.useEffect(()=>{
+        axios.get(`${BASE_API}/districts?district_id=${text.districts_id}`)
+        .then((response) => {
+            setTextHuyen(response?.data[0]?.district_name)
+            // console.log(response?.data[0].district_name)
+        })
+    },[text.districts_id])
+    // console.log(textHuyen, textTinh)
+       
+    function buttonAdd() {
+
+        axios.post(`${BASE_API}/house-for-rents`, {
+            house_name: text.housename,
+            id_typehouse: text.id_typehouse,
+            acreage: text.acreage,
+            price: text.price,
+            people_number: text.people_number,
+            bed_number: text.bed_number,
+            number_of_bedroom: text.number_of_bedroom,
+            number_of_bathroom: text.number_of_bathroom,
+            people_max: text.people_max,
+            price_1_poeple_exceed: text.price_1_poeple_exceed,
+            status: text.status,
+            address_ward: text.address_ward,
+            provinces_id: text.provinces_id,
+            districts_id: text.districts_id,
+            description: text.description,
+            utilities: [...text.utilities],
+            img_avatar_house: text.img_avatar_house,
+            img_house: text.img_house,
+            keySearch: text.address_ward + textHuyen + textTinh,
+        })
+            .then((response) => {
+                history.push("/houses")
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
     return (
         <div className={classes.formUser}>
             <h2 className={classes.textAddUser}>{id ? 'Repair Room' : 'Add Room'}</h2>
             <div className={classes.form} style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                <div style={{ width: '30%' }}>
+                <div style={{ width: '50%' }}>
 
                     {/* //!----------name-------- */}
                     <TextField
@@ -295,6 +408,17 @@ export default function FormType(props) {
 
                         </Select>
                     </FormControl>
+                    {/* //! acreage */}
+                    <TextField
+                        className={classes.input}
+                        id="standard-price-input"
+                        label="Diện tích"
+                        type="number"
+                        autoComplete="current-acreage"
+                        name="acreage"
+                        value={text.acreage}
+                        onChange={changeInput}
+                    />
                     {/* //! price */}
                     <TextField
                         className={classes.input}
@@ -374,7 +498,8 @@ export default function FormType(props) {
                         onChange={changeInput}
                     />
                 </div>
-                <div style={{ width: '30%' }}>
+                <div style={{ width: '50%' }}>
+
 
                     {/* //! price_1_poeple_exceed */}
                     <TextField
@@ -395,7 +520,7 @@ export default function FormType(props) {
                             id="demo-simple-select"
                             value={text.status}
                             name="status"
-                        type="boolean"
+                            type="boolean"
 
                             onChange={changeInput}
                         >
@@ -405,7 +530,7 @@ export default function FormType(props) {
                     </FormControl>
 
                     {/* //! tỉnh */}
-
+                    <br />
 
                     <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">Tỉnh, Thành Phố</InputLabel>
@@ -427,7 +552,7 @@ export default function FormType(props) {
                     </FormControl>
                     {/* //! huyeenj */}
 
-
+                    <br />
                     <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">Quận, Huyện</InputLabel>
                         <Select
@@ -461,6 +586,7 @@ export default function FormType(props) {
                     {/* //!-------------des */}
                     <TextareaAutosize
                         rowsMax={600}
+                        style={{ marginLeft: '20px', height: '100px', marginTop: '20px', width: '200px' }}
                         aria-label="maximum height"
                         placeholder="Description"
                         name="description"
@@ -468,51 +594,8 @@ export default function FormType(props) {
                         onChange={changeInput}
 
                     />
-                    {/* //!avarta house */}
-                </div>
-                <div style={{ width: '30%' }}>
-                    <div >
-                        <img style={{ width: '50px', height: '50px' }} src="" alt="" />
-                        <div>
-                            <input
-                                accept="image/*"
-                                className={classes.input_avatar}
-                                id="contained-button-file"
-
-                                type="file"
-                                name="img_avatar_house"
-                                // onChange={upload}
-                            />
-
-                            <label htmlFor="contained-button-file">
-                                <Button variant="contained" color="primary" component="span" style={{ marginTop: '20px', marginLeft: '20px' }}>
-                                    Đổi ảnh đại diện
-                        </Button>
-                            </label>
-                        </div>
-                    </div>
-                    {/* -------//!anh trinh chieu */}
-                    <div >
-                        <img style={{ width: '250px', height: '250px' }} src="" alt="" />
-                        <div>
-                            <input
-                                accept="image/*"
-                                className={classes.input_avatar}
-                                id="contained-button-file"
-                                type="file"
-                                name="file"
-                                onChange={upload2}
-                                multiple
-                            />
-
-                            <label htmlFor="contained-button-file">
-                                <Button variant="contained" color="primary" component="span" style={{ marginTop: '20px', marginLeft: '20px' }}>
-                                    Ảnh trình chiếu
-                        </Button>
-                            </label>
-                        </div>
-                    </div>
-                    {/* -------util */}
+                    {/* -------//!util */}
+                    <br />
                     <FormControl className={classes.formControl}>
                         <InputLabel id="demo-mutiple-name-label">Tiện ích</InputLabel>
                         <Select
@@ -534,22 +617,73 @@ export default function FormType(props) {
                     </FormControl>
                 </div>
             </div>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
+                {/* //!avarta house */}
+                <div >
+                    <img style={{ width: '200px', height: '150px' }} src={url} alt="" />
+                    <div>
+                        <input
+                            accept="image/*"
+                            className={classes.input_avatar}
+                            id="contained-button-file"
+                            // ref="upload" 
+                            type="file"
+                            name="img_avatar_house"
+                            onChange={upload}
+                        />
+
+                        <label htmlFor="contained-button-file">
+                            <Button variant="contained" color="primary" component="span" style={{ marginTop: '20px', marginLeft: '20px' }}>
+                                Ảnh đại diện
+                        </Button>
+                        </label>
+                        <Button onClick={setAvt} variant="contained" color="" style={{ marginTop: '17px' }}>Ok</Button>
+                    </div>
+                </div>
+
+                {/* -------//!anh trinh chieu */}
+
+                <div >
+                    <div style={{ width: '350px', height: '350px', backgroundColor: 'gray' }}>
+                        {/* {url2.map((ur)=>{
+                        <img src="" alt="" />
+                    })} */}
+                    </div>
+
+
+                    <div>
+                        <input
+                            accept="image/*"
+                            className={classes.input}
+                            id="contained-button-file"
+                            multiple
+                            name="img_house"
+                            type="file"
+                            onChange={upload2}
+                        />
+                        <Button onClick={setImg} variant="contained">Ok</Button>
+
+                    </div>
+                </div>
+            </div>
+            {/* <Button variant="contained" size="small" onClick={setImage}> Set Image</Button> <br /> */}
+
 
 
             {/* ------------------ */}
-            <div className={classes.button}>
-                <Button className={classes.button_confirm} variant="contained" onClick={huy}>
+            <div className={classes.button} style={{ width: '100%', display: 'flex', marginTop: '50px' }}>
+                <Button style={{ width: '50%' }} className={classes.button_confirm} variant="contained" onClick={huy}>
                     Hủy
 </Button>
                 {!id
                     ?
-                    <Button className={classes.button_confirm} variant="contained" color="primary"
+                    <Button style={{ width: '50%' }} className={classes.button_confirm} variant="contained" color="primary"
                         onClick={buttonAdd}
                     >
                         Add
                     </Button>
                     :
-                    <Button className={classes.button_confirm} variant="contained" color="primary"
+                    <Button style={{ width: '50%' }} className={classes.button_confirm} variant="contained" color="primary"
                         onClick={buttonRepair}
                     >
                         Sửa
@@ -560,4 +694,5 @@ export default function FormType(props) {
         </div>
     );
 }
+
 

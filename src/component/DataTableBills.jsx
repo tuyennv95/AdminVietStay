@@ -19,7 +19,8 @@ export default function DataTableBills(props) {
     { field: 'checkIn', headerName: 'checkIn', width:200,},
     { field: 'checkOut', headerName: 'checkOut', width:200,},
     { field: 'Time_booking', headerName: 'Time_booking', width:200,},
-    { field: 'StatusPayment', headerName: 'StatusPayment', width:200,},
+    // { field: 'status_payment', headerName: 'StatusPayment', width:200,},
+    { field: 'statusPayment', headerName: 'StatusPayment', width:200,},
    
    
   ];
@@ -40,7 +41,8 @@ export default function DataTableBills(props) {
     billItem.checkIn = bill.checkIn;
     billItem.checkOut = bill.checkOut;
     billItem.Time_booking = bill.time_booking;
-    billItem.StatusPayment = bill.status_payment;
+    // billItem.status_payment = bill.status_payment===true ? 'Đã Thanh Toán' : 'Chưa Thanh Toán';
+    billItem.statusPayment = bill.statusPayment=== 2 ? 'Đã Thanh Toán' : (bill.statusPayment === 1 ? 'Chưa Thanh Toán' : (bill.statusPayment === 0 ? 'Hủy' : 'Chờ Hủy'));
     return billItem;
   })
  
